@@ -14,7 +14,16 @@ Type 'quit', 'exit', or press Ctrl+C to stop.
 """
 
 from strands import Agent
+import os
 from strands.models import BedrockModel
+
+# AWS SBG at UH edition: one model setting for the whole workshop.
+# Default: Amazon Nova Pro in us-east-1, which works on new AWS accounts (Free plan).
+# Have Claude access? Set MODEL_ID=global.anthropic.claude-sonnet-4-6 before you start.
+MODEL = BedrockModel(
+    model_id=os.environ.get("MODEL_ID", "amazon.nova-pro-v1:0"),
+    region_name=os.environ.get("AWS_REGION", "us-east-1"),
+)
 from customer_service_tools import lookup_customer, get_order_history, process_refund
 
 # AWS-sponsored events / AWS credits: credits only cover Amazon Nova models, not Claude.
@@ -46,6 +55,7 @@ def main():
     # One agent instance reused across turns - it keeps conversation history in
     # agent.messages, which is what makes the conversation multi-turn.
     agent = Agent(
+        model=MODEL,
         tools=[lookup_customer, get_order_history, process_refund],
         system_prompt=SYSTEM_PROMPT,
     )

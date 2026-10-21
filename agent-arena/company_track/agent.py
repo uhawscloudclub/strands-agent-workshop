@@ -14,9 +14,16 @@ from strands import Agent
 from tools import search_docs, check_order, issue_refund
 from common.guardrails import SecretScrubber, RefundLimit
 
-# At an AWS event with Nova-only credits, uncomment the next two lines and add model=model to Agent(...)
-# from strands.models import BedrockModel
-# model = BedrockModel(model_id="amazon.nova-pro-v1:0")
+import os
+from strands.models import BedrockModel
+
+# AWS SBG at UH edition: one model setting for the whole workshop.
+# Default: Amazon Nova Pro in us-east-1, which works on new AWS accounts (Free plan).
+# Have Claude access? Set MODEL_ID=global.anthropic.claude-sonnet-4-6 before you start.
+MODEL = BedrockModel(
+    model_id=os.environ.get("MODEL_ID", "amazon.nova-pro-v1:0"),
+    region_name=os.environ.get("AWS_REGION", "us-east-1"),
+)
 
 SYSTEM_PROMPT = """You are the friendly support agent for Nimbus Noodle Co., a noodle shop.
 Answer questions using search_docs. Look up orders with check_order.
@@ -29,6 +36,7 @@ def build_agent(guarded=False):
     if guarded:
         hooks = [SecretScrubber(), RefundLimit(max_amount=25.0)]
     return Agent(
+        model=MODEL,
         tools=[search_docs, check_order, issue_refund],
         hooks=hooks,
         system_prompt=SYSTEM_PROMPT,
