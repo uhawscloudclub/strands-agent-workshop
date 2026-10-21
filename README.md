@@ -3,8 +3,24 @@
 Maintained by the **AWS Student Builder Group at University of Houston** for the Oct 21, 2026 workshop with **Cougar AI**.
 This is a patched copy of [aws-samples/sample-strands-agents-hands-on-workshop](https://github.com/aws-samples/sample-strands-agents-hands-on-workshop) (MIT-0), plus our own second-half activity, [Agent Arena](./agent-arena/).
 
+## Oct 21 plan (updated after Cougar AI's test run)
+
+| Time | Segment | Where |
+|------|---------|-------|
+| 5:30 | AWS intro, Student Rewards, AI Practitioner cert | AWS SBG |
+| 5:40 | What an agent is: model + tools + loop | Cougar AI |
+| 5:45 | **Setup + Module 1** hands-on: the agent loop and tools | [`samples/01-agent-loop-tools/`](./samples/01-agent-loop-tools/) |
+| 6:10 | Module 2 instructor demo (3 to 5 min): hooks, the idea behind Round 3's defenses | [`samples/02-hooks/`](./samples/02-hooks/) |
+| 6:15 | **Agent Arena** Round 1: build your company or personal agent | [`agent-arena/`](./agent-arena/) |
+| 6:33 | Round 2: break a neighbor's agent | |
+| 6:43 | Round 3: defend with code | |
+| 6:52 | Best attack and best defense demos, take-home links | |
+
+**Take-home:** Modules 2 to 7 (hooks, skills + steering, sessions, deploy to AgentCore, multi-agent, evals). Module 3 is fixed in this repo (see below).
+
 ## What we changed (see [CHANGES.md](./CHANGES.md))
-- **Module 3 guardrail fix:** the refund steering handler crashed on every check and Strands let the refund through. It now blocks correctly.
+- **Module 3 tone guardrail fix:** the tone judge was grading every *tool call* instead of the agent's reply, so it kept cancelling lookups and refunds and the agent retried tool calls over and over. It now only grades the final reply, at most once per reply. Same fix in Modules 4 and 5.
+- **Module 3 refund guardrail fix:** the refund steering handler crashed on every check and Strands let the refund through. It now blocks correctly.
 - Workshop Studio paths (`/workshop/samples/...`) added next to every terminal step.
 - Module 2 Try It now has a solution cell.
 - Module 5 `main.py` now loads the `skills/` it deploys.
