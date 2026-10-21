@@ -19,6 +19,7 @@ This is a patched copy of [aws-samples/sample-strands-agents-hands-on-workshop](
 **Take-home:** Modules 2 to 7 (hooks, skills + steering, sessions, deploy to AgentCore, multi-agent, evals). Module 3 is fixed in this repo (see below).
 
 ## What we changed (see [CHANGES.md](./CHANGES.md))
+- **Runs on a new AWS account:** Module 1 and the Agent Arena default to Amazon Nova Pro (us-east-1) through one `MODEL` setting, with a root `requirements.txt` for a VS Code setup.
 - **Module 3 tone guardrail fix:** the tone judge was grading every *tool call* instead of the agent's reply, so it kept cancelling lookups and refunds and the agent retried tool calls over and over. It now only grades the final reply, at most once per reply. Same fix in Modules 4 and 5.
 - **Module 3 refund guardrail fix:** the refund steering handler crashed on every check and Strands let the refund through. It now blocks correctly.
 - Workshop Studio paths (`/workshop/samples/...`) added next to every terminal step.
@@ -26,14 +27,22 @@ This is a patched copy of [aws-samples/sample-strands-agents-hands-on-workshop](
 - Module 5 `main.py` now loads the `skills/` it deploys.
 - Module 7 rubric now fails an agent that refunds before verifying, and the closing line is accurate.
 
-## Quick start (your own machine)
+## Quick start (your own laptop, VS Code)
+You need Python 3.10+, Git, VS Code (with the Python and Jupyter extensions), the AWS CLI v2.32+, and an AWS account.
+
 ```bash
 git clone https://github.com/uhawscloudclub/strands-agent-workshop.git
 cd strands-agent-workshop
-python3 -m venv .venv && source .venv/bin/activate
-pip install strands-agents strands-agents-evals bedrock-agentcore
+python -m venv .venv
+# macOS/Linux: source .venv/bin/activate     Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+aws login            # sign in to your AWS account in the browser; pick region us-east-1
+code .               # open the folder in VS Code
 ```
-Then open `samples/01-agent-loop-tools/` and run the notebook. For the second half, see [agent-arena/README.md](./agent-arena/README.md).
+
+**Model:** Module 1 and the Agent Arena use one setting, `MODEL`, which defaults to **Amazon Nova Pro in us-east-1** so it works on new AWS accounts on the Free plan. Have Claude access? Set `MODEL_ID=global.anthropic.claude-sonnet-4-6` before you start.
+
+Then open `samples/01-agent-loop-tools/module-01-agent-loop-tools.ipynb`, pick the `.venv` kernel, and run the cells. For the second half, see [agent-arena/README.md](./agent-arena/README.md).
 
 ---
 
