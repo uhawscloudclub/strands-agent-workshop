@@ -1,2 +1,4 @@
 strands-agents
 ipykernel
+botocore[crt]
+awscrt>=0.30.0

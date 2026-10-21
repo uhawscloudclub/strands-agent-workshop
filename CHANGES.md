@@ -15,3 +15,4 @@ Tested on Strands Agents v1.58.0 (Oct 2026). Every notebook cell and companion s
 | `agent-arena/` | New: build it, then break it activity (company and personal tracks, guardrail hooks) | Second half of the AWS SBG x Cougar AI workshop. |
 
 Note for the upstream Setup page (not in this repo): the local setup says `cd aws-demo-strands-agents-hands-on-workshop`, but the folder is `sample-strands-agents-hands-on-workshop`.
+| Oct 21 | requirements.txt (root + samples) | Added `botocore[crt]` and `awscrt>=0.30.0`. Without them, credentials from `aws login` fail in Python with MissingDependencyException (found in the Oct 21 Windows dry run). |

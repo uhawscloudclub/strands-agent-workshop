@@ -2,3 +2,5 @@ strands-agents>=1.42.0
 bedrock-agentcore>=1.13.0
 aws-opentelemetry-distro>=0.10.1
 boto3
+botocore[crt]
+awscrt>=0.30.0
